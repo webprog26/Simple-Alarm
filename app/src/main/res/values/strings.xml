@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Simple Alarm</string>
+
+    <string name="add_alarm_btn_content_description">Add alarm</string>
 </resources>
