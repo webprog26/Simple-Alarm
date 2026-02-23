@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         mainViewModel.mButtonClicked.observe(this, Observer { item ->
-
         })
     }
 }
