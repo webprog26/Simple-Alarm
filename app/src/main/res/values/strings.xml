@@ -2,4 +2,6 @@
     <string name="app_name">Simple Alarm</string>
 
     <string name="add_alarm_btn_content_description">Add alarm</string>
+
+    <string name="time_picker_title">Select Time</string>
 </resources>

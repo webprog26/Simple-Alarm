@@ -6,9 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.webprog26.simplealarm.ui.AlarmsAdapter
 
 class MainFragment : Fragment() {
+
+    private lateinit var alarmsAdapter: AlarmsAdapter
 
     private val mainViewModel: MainViewModel by activityViewModels()
     override fun onCreateView(
@@ -24,5 +29,12 @@ class MainFragment : Fragment() {
         view.findViewById<FloatingActionButton>(R.id.fab_add_alarm).setOnClickListener { view ->
             mainViewModel.onAddAlarmButtonClick()
         }
+
+        val alarmsRecyclerView: RecyclerView = view.findViewById<RecyclerView>(R.id.rv_alarms_list)
+        alarmsRecyclerView.layoutManager = LinearLayoutManager(context)
+
+        this.alarmsAdapter = AlarmsAdapter(mutableListOf())
+
+        alarmsRecyclerView.adapter = alarmsAdapter
     }
 }
