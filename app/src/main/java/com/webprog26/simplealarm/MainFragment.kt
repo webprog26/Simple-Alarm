@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.webprog26.simplealarm.data.Alarm
 import com.webprog26.simplealarm.ui.AlarmsAdapter
 
 class MainFragment : Fragment() {
@@ -36,5 +37,9 @@ class MainFragment : Fragment() {
         this.alarmsAdapter = AlarmsAdapter(mutableListOf())
 
         alarmsRecyclerView.adapter = alarmsAdapter
+    }
+
+    fun updateAlarmsList(alarms: List<Alarm>) {
+        alarmsAdapter.updateAlarmsData(alarms)
     }
 }
