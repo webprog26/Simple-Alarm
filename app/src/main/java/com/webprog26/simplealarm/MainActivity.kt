@@ -9,8 +9,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.Observer
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import com.webprog26.simplealarm.data.Alarm
 import com.webprog26.simplealarm.data.AlarmsViewModel
 import com.webprog26.simplealarm.data.database.AlarmsDatabase
@@ -46,19 +44,36 @@ class MainActivity : AppCompatActivity() {
         })
 
         mainViewModel.mButtonClicked.observe(this, Observer {
-            val picker =
-                MaterialTimePicker.Builder().setTimeFormat(TimeFormat.CLOCK_24H).setHour(12)
-                    .setMinute(0).setTitleText(getString(R.string.time_picker_title)).setInputMode(
-                        MaterialTimePicker.INPUT_MODE_CLOCK
-                    ).build()
+            startMaterialTimePicker(
+                supportFragmentManager, getString(R.string.time_picker_title),
+                object : OnTimePickerPositiveButtonClickListener {
+                    override fun onTimePickerPositiveButtonClick(
+                        hour: Int,
+                        minute: Int
+                    ) {
+                        alarmsViewModel.insert(
+                            Alarm(
+                                0,
+                                hour = hour,
+                                minute = minute,
+                                isActive = true
+                            )
+                        )
+                    }
+                })
+        })
 
-            picker.show(supportFragmentManager, "TimePicker")
-            // Handle the "OK" button click
-            picker.addOnPositiveButtonClickListener {
-                val hour = picker.hour
-                val minute = picker.minute
-                alarmsViewModel.insert(Alarm(0, hour = hour, minute = minute, isActive = true))
-            }
+        mainViewModel.mAlarmWithPositionClicked.observe(this, Observer { (alarm, position) ->
+            SingleAlarmEditorFragment.newInstance(alarm, position)
+                .show(supportFragmentManager, "SingleAlarmEditorFragment")
+        })
+
+        mainViewModel.mAlarmWithPositionUpdated.observe(this, Observer { (alarm, position) ->
+            alarmsViewModel.update(alarm)
+        })
+
+        mainViewModel.mAlarmDeleted.observe(this, Observer { alarm ->
+            alarmsViewModel.delete(alarm)
         })
     }
 }
