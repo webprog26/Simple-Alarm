@@ -9,9 +9,26 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.webprog26.simplealarm.R
 import com.webprog26.simplealarm.data.Alarm
+import com.webprog26.simplealarm.getTimeString
 
-class AlarmsAdapter(private val mAlarmsList: MutableList<Alarm>) :
+class AlarmsAdapter(
+    private val mAlarmsList: MutableList<Alarm>,
+    onAlarmClickListener: OnAlarmClickListener,
+    onAlarmStateUpdatedListener: OnAlarmStateUpdatedListener
+) :
     RecyclerView.Adapter<AlarmsAdapter.AlarmViewHolder>() {
+
+    interface OnAlarmClickListener {
+        fun onAlarmClick(alarm: Alarm, position: Int)
+    }
+
+     interface OnAlarmStateUpdatedListener {
+         fun onAlarmStateUpdated(alarm: Alarm, position: Int)
+     }
+
+    private val mOnAlarmClickListener = onAlarmClickListener
+
+    private val mOnAlarmStateUpdatedListener = onAlarmStateUpdatedListener
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -26,7 +43,16 @@ class AlarmsAdapter(private val mAlarmsList: MutableList<Alarm>) :
         holder: AlarmViewHolder,
         position: Int
     ) {
-        holder.bind(mAlarmsList[position])
+        val alarm = mAlarmsList[position]
+        holder.bind(alarm)
+        holder.view.setOnClickListener { view ->
+            mOnAlarmClickListener.onAlarmClick(alarm, position)
+        }
+
+        holder.view.findViewById<SwitchCompat>(R.id.sw_is_alarm_active).setOnCheckedChangeListener { _, isChecked ->
+            mOnAlarmStateUpdatedListener.onAlarmStateUpdated(alarm.copy(isActive = isChecked), position)
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -41,26 +67,13 @@ class AlarmsAdapter(private val mAlarmsList: MutableList<Alarm>) :
         diffResult.dispatchUpdatesTo(this)
     }
 
-    inner class AlarmViewHolder( var view: View)
-        : RecyclerView.ViewHolder(view) {
+    inner class AlarmViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(alarm: Alarm) {
             view.findViewById<TextView>(R.id.tv_alarm_time)
-                .text = buildString {
-                append(alarm.hour.adjustTimeValue())
-                append(" : ")
-                append(alarm.minute.adjustTimeValue())
-            }
-            view.findViewById<SwitchCompat>(R.id.sw_is_alarm_active)
-                .isChecked = alarm.isActive
-        }
+                .text = alarm.getTimeString()
 
-        private fun Int.adjustTimeValue(): String {
-            return if (this >= 0 && this < 10) {
-                "0${this}"
-            } else {
-                this.toString()
-            }
+                view.findViewById<SwitchCompat>(R.id.sw_is_alarm_active).isChecked = alarm.isActive
         }
     }
 }

@@ -34,7 +34,18 @@ class MainFragment : Fragment() {
         val alarmsRecyclerView: RecyclerView = view.findViewById<RecyclerView>(R.id.rv_alarms_list)
         alarmsRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        this.alarmsAdapter = AlarmsAdapter(mutableListOf())
+        this.alarmsAdapter = AlarmsAdapter(mutableListOf(), object : AlarmsAdapter.OnAlarmClickListener {
+            override fun onAlarmClick(
+                alarm: Alarm,
+                position: Int
+            ) {
+               mainViewModel.onAlarmClick(alarm, position)
+            }
+        }, object : AlarmsAdapter.OnAlarmStateUpdatedListener {
+            override fun onAlarmStateUpdated(alarm: Alarm, position: Int) {
+                mainViewModel.onAlarmUpdated(alarm, position)
+            }
+        })
 
         alarmsRecyclerView.adapter = alarmsAdapter
     }
