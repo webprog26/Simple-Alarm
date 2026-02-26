@@ -12,6 +12,7 @@ data class Alarm(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "alarm_hour") var hour: Int,
     @ColumnInfo(name = "alarm_minute") var minute: Int,
+    @ColumnInfo(name = "alarm_name") var alarmName: String = "",
     @ColumnInfo(name = "alarm_days_selected") var alarmDaysSelectedIds: List<Int>,
     @ColumnInfo(name = "alarm_days_selected_names") var alarmDaysSelectedNames: String = "",
     @ColumnInfo(name = "alarm_is_active") var isActive: Boolean

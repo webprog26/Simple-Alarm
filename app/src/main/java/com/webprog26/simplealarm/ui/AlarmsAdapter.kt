@@ -92,6 +92,8 @@ class AlarmsAdapter(
                 } else {
                     tvAlarmScheduledTo.text = alarm.alarmDaysSelectedNames
                 }
+
+                view.findViewById<TextView>(R.id.tv_alarm_name).text = alarm.alarmName
         }
     }
 

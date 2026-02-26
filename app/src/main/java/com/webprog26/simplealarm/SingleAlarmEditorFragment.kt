@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -28,7 +29,9 @@ class SingleAlarmEditorFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mTvAlarmTime = view.findViewById<TextView>(R.id.tv_alarm_time);
+        val mTvAlarmTime = view.findViewById<TextView>(R.id.tv_alarm_time)
+
+        val mEtAlarmName = view.findViewById<EditText>(R.id.et_alarm_name);
 
         val mAlarmData = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(KEY_ALARM, Alarm::class.java)
@@ -37,6 +40,8 @@ class SingleAlarmEditorFragment : BottomSheetDialogFragment() {
         }
 
         mAlarmData?.let {
+
+            mEtAlarmName.setText(mAlarmData.alarmName)
 
             var mUpdatedAlarm: Alarm = mAlarmData.copy()
 
@@ -70,7 +75,7 @@ class SingleAlarmEditorFragment : BottomSheetDialogFragment() {
 
             view.findViewById<Button>(R.id.btn_save_alarm).setOnClickListener {
 
-                mUpdatedAlarm = mUpdatedAlarm.copy(alarmDaysSelectedIds = mAlarmDaysSelectedIds)
+                mUpdatedAlarm = mUpdatedAlarm.copy(alarmDaysSelectedIds = mAlarmDaysSelectedIds, alarmName = mEtAlarmName.text.toString())
                 mainViewModel.onAlarmUpdated(mUpdatedAlarm/*, mAlarmPosition*/)
 
                 dismiss()

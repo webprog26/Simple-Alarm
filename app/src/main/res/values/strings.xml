@@ -32,4 +32,6 @@
     <string name="alarm_scheduled_saturday">Sat</string>
     <string name="alarm_scheduled_sunday">Sun</string>
 
+    <string name="alarm_name_hint">Alarm name</string>
+
 </resources>
