@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.SimpleAlarm" parent="Base.Theme.SimpleAlarm" />
+
+    <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/alarm_day_selected_bg</item>
+    </style>
 </resources>

@@ -56,7 +56,8 @@ class MainActivity : AppCompatActivity() {
                                 0,
                                 hour = hour,
                                 minute = minute,
-                                isActive = true
+                                listOf(),
+                                isActive = true,
                             )
                         )
                     }
