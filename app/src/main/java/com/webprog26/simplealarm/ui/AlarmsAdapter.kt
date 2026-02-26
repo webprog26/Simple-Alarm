@@ -50,8 +50,10 @@ class AlarmsAdapter(
             onAlarmClickListener.onAlarmClick(alarm)
         }
 
-        holder.view.findViewById<SwitchCompat>(R.id.sw_is_alarm_active).setOnCheckedChangeListener { _, isChecked ->
-            onAlarmStateUpdatedListener.onAlarmStateUpdated(alarm.copy(isActive = isChecked))
+        val mAlarmStateSwitch = holder.view.findViewById<SwitchCompat>(R.id.sw_is_alarm_active)
+
+        mAlarmStateSwitch.setOnClickListener { v ->
+            onAlarmStateUpdatedListener.onAlarmStateUpdated(alarm.copy(isActive = mAlarmStateSwitch.isChecked))
         }
 
         holder.view.findViewById<TextView>(R.id.tv_alarm_time).setOnClickListener { v ->
