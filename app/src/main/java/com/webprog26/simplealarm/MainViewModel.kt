@@ -23,6 +23,10 @@ class MainViewModel : ViewModel() {
     val mAlarmDeleted: LiveData<Alarm>
         get() = _mAlarmDeleted
 
+    private val _mAlarmTimeClicked = MutableLiveData<Alarm>()
+    val mAlarmTimeClicked: LiveData<Alarm>
+        get() = _mAlarmTimeClicked
+
     fun onAddAlarmButtonClick() {
         this._mButtonClicked.value = true
     }
@@ -37,6 +41,10 @@ class MainViewModel : ViewModel() {
 
     fun onAlarmDeleted(alarm: Alarm) {
         this._mAlarmDeleted.value = alarm
+    }
+
+    fun onAlarmTimeClick(alarm: Alarm) {
+        this._mAlarmTimeClicked.value = alarm
     }
 
 }

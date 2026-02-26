@@ -13,8 +13,9 @@ import com.webprog26.simplealarm.getTimeString
 
 class AlarmsAdapter(
     private val mAlarmsList: MutableList<Alarm>,
-    onAlarmClickListener: OnAlarmClickListener,
-    onAlarmStateUpdatedListener: OnAlarmStateUpdatedListener
+    private val onAlarmClickListener: OnAlarmClickListener,
+    private val onAlarmStateUpdatedListener: OnAlarmStateUpdatedListener,
+    private val onAlarmTimeClickListener: OnAlarmTimeClickListener,
 ) :
     RecyclerView.Adapter<AlarmsAdapter.AlarmViewHolder>() {
 
@@ -26,9 +27,9 @@ class AlarmsAdapter(
          fun onAlarmStateUpdated(alarm: Alarm, position: Int)
      }
 
-    private val mOnAlarmClickListener = onAlarmClickListener
-
-    private val mOnAlarmStateUpdatedListener = onAlarmStateUpdatedListener
+    interface OnAlarmTimeClickListener {
+        fun onAlarmTimeClick(alarm: Alarm)
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -46,11 +47,15 @@ class AlarmsAdapter(
         val alarm = mAlarmsList[position]
         holder.bind(alarm)
         holder.view.setOnClickListener { view ->
-            mOnAlarmClickListener.onAlarmClick(alarm, position)
+            onAlarmClickListener.onAlarmClick(alarm, position)
         }
 
         holder.view.findViewById<SwitchCompat>(R.id.sw_is_alarm_active).setOnCheckedChangeListener { _, isChecked ->
-            mOnAlarmStateUpdatedListener.onAlarmStateUpdated(alarm.copy(isActive = isChecked), position)
+            onAlarmStateUpdatedListener.onAlarmStateUpdated(alarm.copy(isActive = isChecked), position)
+        }
+
+        holder.view.findViewById<TextView>(R.id.tv_alarm_time).setOnClickListener { v ->
+            onAlarmTimeClickListener.onAlarmTimeClick(alarm)
         }
 
     }

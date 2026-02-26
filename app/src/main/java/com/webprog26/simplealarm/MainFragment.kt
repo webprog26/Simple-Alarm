@@ -45,7 +45,14 @@ class MainFragment : Fragment() {
             override fun onAlarmStateUpdated(alarm: Alarm, position: Int) {
                 mainViewModel.onAlarmUpdated(alarm, position)
             }
-        })
+        },
+            object : AlarmsAdapter.OnAlarmTimeClickListener {
+                override fun onAlarmTimeClick(
+                    alarm: Alarm
+                ) {
+                    mainViewModel.onAlarmTimeClick(alarm)
+                }
+            })
 
         alarmsRecyclerView.adapter = alarmsAdapter
     }
