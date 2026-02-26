@@ -11,12 +11,12 @@ class MainViewModel : ViewModel() {
     val mButtonClicked: LiveData<Boolean>
         get() = _mButtonClicked
 
-    private val _mAlarmWithPositionClicked = MutableLiveData<Pair<Alarm, Int>>()
-    val mAlarmWithPositionClicked: LiveData<Pair<Alarm, Int>>
+    private val _mAlarmWithPositionClicked = MutableLiveData<Alarm>()
+    val mAlarmWithPositionClicked: LiveData<Alarm>
         get() = _mAlarmWithPositionClicked
 
-    private val _mAlarmWithPositionUpdated = MutableLiveData<Pair<Alarm, Int>>()
-    val mAlarmWithPositionUpdated: LiveData<Pair<Alarm, Int>>
+    private val _mAlarmWithPositionUpdated = MutableLiveData<Alarm>()
+    val mAlarmWithPositionUpdated: LiveData<Alarm>
         get() = _mAlarmWithPositionUpdated
 
     private val _mAlarmDeleted = MutableLiveData<Alarm>()
@@ -31,12 +31,12 @@ class MainViewModel : ViewModel() {
         this._mButtonClicked.value = true
     }
 
-    fun onAlarmClick(alarm: Alarm, position: Int) {
-        this._mAlarmWithPositionClicked.value = Pair<Alarm, Int>(alarm, position)
+    fun onAlarmClick(alarm: Alarm) {
+        this._mAlarmWithPositionClicked.value = alarm
     }
 
-    fun onAlarmUpdated(alarm: Alarm, position: Int) {
-        this._mAlarmWithPositionUpdated.value = Pair<Alarm, Int>(alarm, position)
+    fun onAlarmUpdated(alarm: Alarm) {
+        this._mAlarmWithPositionUpdated.value = alarm
     }
 
     fun onAlarmDeleted(alarm: Alarm) {

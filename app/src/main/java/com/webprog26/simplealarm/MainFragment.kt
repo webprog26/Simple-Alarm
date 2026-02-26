@@ -36,14 +36,13 @@ class MainFragment : Fragment() {
 
         this.alarmsAdapter = AlarmsAdapter(mutableListOf(), object : AlarmsAdapter.OnAlarmClickListener {
             override fun onAlarmClick(
-                alarm: Alarm,
-                position: Int
+                alarm: Alarm
             ) {
-               mainViewModel.onAlarmClick(alarm, position)
+               mainViewModel.onAlarmClick(alarm)
             }
         }, object : AlarmsAdapter.OnAlarmStateUpdatedListener {
-            override fun onAlarmStateUpdated(alarm: Alarm, position: Int) {
-                mainViewModel.onAlarmUpdated(alarm, position)
+            override fun onAlarmStateUpdated(alarm: Alarm) {
+                mainViewModel.onAlarmUpdated(alarm)
             }
         },
             object : AlarmsAdapter.OnAlarmTimeClickListener {
