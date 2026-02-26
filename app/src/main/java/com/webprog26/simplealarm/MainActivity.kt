@@ -44,24 +44,22 @@ class MainActivity : AppCompatActivity() {
         })
 
         mainViewModel.mButtonClicked.observe(this, Observer {
-            startMaterialTimePicker(
-                supportFragmentManager, getString(R.string.time_picker_title),
-                object : OnTimePickerPositiveButtonClickListener {
-                    override fun onTimePickerPositiveButtonClick(
-                        hour: Int,
-                        minute: Int
-                    ) {
-                        alarmsViewModel.insert(
-                            Alarm(
-                                0,
-                                hour = hour,
-                                minute = minute,
-                                listOf(),
-                                isActive = true,
-                            )
+            startMaterialTimePickerInternal(            object : OnTimePickerPositiveButtonClickListener {
+                override fun onTimePickerPositiveButtonClick(
+                    hour: Int,
+                    minute: Int
+                ) {
+                    alarmsViewModel.insert(
+                        Alarm(
+                            0,
+                            hour = hour,
+                            minute = minute,
+                            listOf(),
+                            isActive = true,
                         )
-                    }
-                })
+                    )
+                }
+            })
         })
 
         mainViewModel.mAlarmWithPositionClicked.observe(this, Observer { (alarm, position) ->
@@ -76,5 +74,25 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.mAlarmDeleted.observe(this, Observer { alarm ->
             alarmsViewModel.delete(alarm)
         })
+
+        mainViewModel.mAlarmTimeClicked.observe(this, Observer { alarm ->
+            startMaterialTimePickerInternal(            object : OnTimePickerPositiveButtonClickListener {
+                override fun onTimePickerPositiveButtonClick(
+                    hour: Int,
+                    minute: Int
+                ) {
+                    alarmsViewModel.update(alarm.copy(
+                        hour = hour,
+                        minute = minute
+                    ))
+                }
+            })
+        })
+    }
+
+    private fun startMaterialTimePickerInternal(listener: OnTimePickerPositiveButtonClickListener) {
+        startMaterialTimePicker(
+            supportFragmentManager, getString(R.string.time_picker_title),
+            listener)
     }
 }
