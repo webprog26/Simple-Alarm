@@ -35,7 +35,6 @@ class SingleAlarmEditorFragment : BottomSheetDialogFragment() {
         } else {
             arguments?.getParcelable<Alarm>(KEY_ALARM)
         }
-        val mAlarmPosition = arguments?.getInt(KEY_POSITION)
 
         mAlarmData?.let {
 
@@ -70,12 +69,11 @@ class SingleAlarmEditorFragment : BottomSheetDialogFragment() {
             }
 
             view.findViewById<Button>(R.id.btn_save_alarm).setOnClickListener {
-                mAlarmPosition?.let {
-                    mUpdatedAlarm = mUpdatedAlarm.copy(alarmDaysSelectedIds = mAlarmDaysSelectedIds)
-                    mainViewModel.onAlarmUpdated(mUpdatedAlarm, mAlarmPosition)
 
-                    dismiss()
-                }
+                mUpdatedAlarm = mUpdatedAlarm.copy(alarmDaysSelectedIds = mAlarmDaysSelectedIds)
+                mainViewModel.onAlarmUpdated(mUpdatedAlarm/*, mAlarmPosition*/)
+
+                dismiss()
             }
 
             view.findViewById<Button>(R.id.btn_delete_alarm).setOnClickListener { view ->
@@ -179,11 +177,10 @@ class SingleAlarmEditorFragment : BottomSheetDialogFragment() {
         const val SUNDAY = "Sunday"
 
 
-        fun newInstance(alarm: Alarm, position: Int): SingleAlarmEditorFragment {
+        fun newInstance(alarm: Alarm): SingleAlarmEditorFragment {
             return SingleAlarmEditorFragment().apply {
                 val bundle = Bundle()
                 bundle.putParcelable(KEY_ALARM, alarm)
-                bundle.putInt(KEY_POSITION, position)
                 arguments = bundle
             }
         }

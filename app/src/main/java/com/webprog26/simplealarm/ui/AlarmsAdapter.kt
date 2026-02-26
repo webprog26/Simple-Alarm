@@ -20,11 +20,11 @@ class AlarmsAdapter(
     RecyclerView.Adapter<AlarmsAdapter.AlarmViewHolder>() {
 
     interface OnAlarmClickListener {
-        fun onAlarmClick(alarm: Alarm, position: Int)
+        fun onAlarmClick(alarm: Alarm)
     }
 
      interface OnAlarmStateUpdatedListener {
-         fun onAlarmStateUpdated(alarm: Alarm, position: Int)
+         fun onAlarmStateUpdated(alarm: Alarm)
      }
 
     interface OnAlarmTimeClickListener {
@@ -47,11 +47,11 @@ class AlarmsAdapter(
         val alarm = mAlarmsList[position]
         holder.bind(alarm)
         holder.view.setOnClickListener { view ->
-            onAlarmClickListener.onAlarmClick(alarm, position)
+            onAlarmClickListener.onAlarmClick(alarm)
         }
 
         holder.view.findViewById<SwitchCompat>(R.id.sw_is_alarm_active).setOnCheckedChangeListener { _, isChecked ->
-            onAlarmStateUpdatedListener.onAlarmStateUpdated(alarm.copy(isActive = isChecked), position)
+            onAlarmStateUpdatedListener.onAlarmStateUpdated(alarm.copy(isActive = isChecked))
         }
 
         holder.view.findViewById<TextView>(R.id.tv_alarm_time).setOnClickListener { v ->

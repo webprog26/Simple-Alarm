@@ -62,12 +62,12 @@ class MainActivity : AppCompatActivity() {
             })
         })
 
-        mainViewModel.mAlarmWithPositionClicked.observe(this, Observer { (alarm, position) ->
-            SingleAlarmEditorFragment.newInstance(alarm, position)
+        mainViewModel.mAlarmWithPositionClicked.observe(this, Observer { alarm ->
+            SingleAlarmEditorFragment.newInstance(alarm)
                 .show(supportFragmentManager, "SingleAlarmEditorFragment")
         })
 
-        mainViewModel.mAlarmWithPositionUpdated.observe(this, Observer { (alarm, position) ->
+        mainViewModel.mAlarmWithPositionUpdated.observe(this, Observer { alarm ->
             alarmsViewModel.update(alarm)
         })
 
