@@ -26,14 +26,15 @@ fun startMaterialTimePicker(supportFragmentManager: FragmentManager,
                             onTimePickerPositiveButtonListener: OnTimePickerPositiveButtonClickListener,
                             initialHour: Int = 12,
                             initialMinute: Int = 0,) {
-    val picker = MaterialTimePicker.Builder().setTimeFormat(TimeFormat.CLOCK_24H).setHour(initialHour)
+    val picker =
+        MaterialTimePicker.Builder().setTimeFormat(TimeFormat.CLOCK_24H).setHour(initialHour)
             .setMinute(initialMinute).setTitleText(title).setInputMode(
                 MaterialTimePicker.INPUT_MODE_CLOCK
-            ).build()
-        picker.show(supportFragmentManager, "TimePicker")
-        // Handle the "OK" button click
+            ).build().also {
+                it.show(supportFragmentManager, "TimePicker")
+            }
+    // Handle the "OK" button click
         picker.addOnPositiveButtonClickListener {
             onTimePickerPositiveButtonListener.onTimePickerPositiveButtonClick(picker.hour, picker.minute)
         }
-
 }

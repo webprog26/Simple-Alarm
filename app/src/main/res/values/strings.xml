@@ -12,4 +12,24 @@
 
     <string name="delete_alarm">Delete</string>
     <string name="save_alarm">Save</string>
+
+    <string name="chip_monday_text">M</string>
+    <string name="chip_tuesday_text">T</string>
+    <string name="chip_wednesday_text">W</string>
+    <string name="chip_thursday_text">T</string>
+    <string name="chip_friday_text">F</string>
+    <string name="chip_saturday_text">S</string>
+    <string name="chip_sunday_text">S</string>
+
+    <string name="alarm_not_scheduled_text">Not scheduled</string>
+    <string name="alarm_scheduled_to_every_day">Every day</string>
+
+    <string name="alarm_scheduled_monday">Mon</string>
+    <string name="alarm_scheduled_tuesday">Tue</string>
+    <string name="alarm_scheduled_wednesday">Wed</string>
+    <string name="alarm_scheduled_thursday">Thu</string>
+    <string name="alarm_scheduled_friday">Fri</string>
+    <string name="alarm_scheduled_saturday">Sat</string>
+    <string name="alarm_scheduled_sunday">Sun</string>
+
 </resources>

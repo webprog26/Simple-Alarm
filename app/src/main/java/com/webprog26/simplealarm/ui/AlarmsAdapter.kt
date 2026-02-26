@@ -74,6 +74,25 @@ class AlarmsAdapter(
                 .text = alarm.getTimeString()
 
                 view.findViewById<SwitchCompat>(R.id.sw_is_alarm_active).isChecked = alarm.isActive
+
+                val tvAlarmScheduledTo = view.findViewById<TextView>(R.id.tv_alarm_scheduled_to)
+                val context = view.context
+
+                if (alarm.alarmDaysSelectedIds.isEmpty()) {
+                    tvAlarmScheduledTo.text =
+                        context.getString(R.string.alarm_not_scheduled_text)
+                } else if (alarm.alarmDaysSelectedIds.size == NUM_OF_DAYS_IN_WEEK){
+                    tvAlarmScheduledTo.text =
+                        context.getString(R.string.alarm_scheduled_to_every_day)
+                } else {
+                    tvAlarmScheduledTo.text = alarm.alarmDaysSelectedNames
+                }
         }
+    }
+
+
+
+    companion object {
+        const val NUM_OF_DAYS_IN_WEEK = 7
     }
 }

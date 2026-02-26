@@ -4,9 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.webprog26.simplealarm.data.Alarm
 
 @Database(entities = [Alarm::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class AlarmsDatabase : RoomDatabase() {
     abstract fun alarmsDao(): AlarmsDao
     companion object {
