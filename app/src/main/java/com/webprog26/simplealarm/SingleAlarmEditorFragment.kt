@@ -1,5 +1,9 @@
 package com.webprog26.simplealarm
 
+import android.app.Activity
+import android.content.Intent
+import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,15 +12,31 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.ChipGroup
 import com.webprog26.simplealarm.data.Alarm
 import kotlin.getValue
+import androidx.core.net.toUri
 
 class SingleAlarmEditorFragment : BottomSheetDialogFragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels()
+
+    private lateinit var mTvAlarmSound: TextView
+
+    private var mSelectedAlarmSoundUri: String = ""
+
+    private val pickAlarmSound = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val uri: Uri? = result.data?.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
+            uri?.let {
+                mTvAlarmSound.text = getTitleFromUri(requireContext(), uri)
+                mSelectedAlarmSoundUri = uri.toString()
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +53,8 @@ class SingleAlarmEditorFragment : BottomSheetDialogFragment() {
 
         val mEtAlarmName = view.findViewById<EditText>(R.id.et_alarm_name);
 
+        mTvAlarmSound = view.findViewById<TextView>(R.id.tv_alarm_sound)
+
         val mAlarmData = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(KEY_ALARM, Alarm::class.java)
         } else {
@@ -42,6 +64,8 @@ class SingleAlarmEditorFragment : BottomSheetDialogFragment() {
         mAlarmData?.let {
 
             mEtAlarmName.setText(mAlarmData.alarmName)
+
+            mTvAlarmSound.text = getTitleFromUri(requireContext(), mAlarmData.alarmSoundUri.toUri())
 
             var mUpdatedAlarm: Alarm = mAlarmData.copy()
 
@@ -75,7 +99,7 @@ class SingleAlarmEditorFragment : BottomSheetDialogFragment() {
 
             view.findViewById<Button>(R.id.btn_save_alarm).setOnClickListener {
 
-                mUpdatedAlarm = mUpdatedAlarm.copy(alarmDaysSelectedIds = mAlarmDaysSelectedIds, alarmName = mEtAlarmName.text.toString())
+                mUpdatedAlarm = mUpdatedAlarm.copy(alarmDaysSelectedIds = mAlarmDaysSelectedIds, alarmName = mEtAlarmName.text.toString(), alarmSoundUri = mSelectedAlarmSoundUri)
                 mainViewModel.onAlarmUpdated(mUpdatedAlarm/*, mAlarmPosition*/)
 
                 dismiss()
@@ -165,6 +189,17 @@ class SingleAlarmEditorFragment : BottomSheetDialogFragment() {
                 }
 
                 mUpdatedAlarm = mUpdatedAlarm.copy(alarmDaysSelectedNames = mAlarmDaysSelectedNames)
+            }
+
+            mTvAlarmSound.setOnClickListener { v ->
+
+                val intent = Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
+                    putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM)
+                    putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select Alarm Sound")
+                    putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
+                    putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false)
+                }
+                pickAlarmSound.launch(intent)
             }
         }
     }

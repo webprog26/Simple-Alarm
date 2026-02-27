@@ -15,5 +15,6 @@ data class Alarm(
     @ColumnInfo(name = "alarm_name") var alarmName: String = "",
     @ColumnInfo(name = "alarm_days_selected") var alarmDaysSelectedIds: List<Int>,
     @ColumnInfo(name = "alarm_days_selected_names") var alarmDaysSelectedNames: String = "",
+    @ColumnInfo(name = "alarm_sound_uri") var alarmSoundUri: String = "",
     @ColumnInfo(name = "alarm_is_active") var isActive: Boolean
 ) : Parcelable

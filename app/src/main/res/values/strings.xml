@@ -34,4 +34,6 @@
 
     <string name="alarm_name_hint">Alarm name</string>
 
+    <string name="alarm_sound">Sound</string>
+
 </resources>
