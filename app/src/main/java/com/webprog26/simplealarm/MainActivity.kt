@@ -1,5 +1,7 @@
 package com.webprog26.simplealarm
 
+import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -49,6 +51,9 @@ class MainActivity : AppCompatActivity() {
                     hour: Int,
                     minute: Int
                 ) {
+                    val defaultAlarmUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+                        ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                        ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
                     alarmsViewModel.insert(
                         Alarm(
                             0,
@@ -56,6 +61,7 @@ class MainActivity : AppCompatActivity() {
                             minute = minute,
                             "",
                             listOf(),
+                            alarmSoundUri = defaultAlarmUri.toString(),
                             isActive = true,
                         )
                     )
